@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <>
             <MobileLayout closeSideBar={openSidebar} isOpen={isOpen} />
             <Desktopleyout buttonClick={openSidebar} />
-            children
+            {children}
 
         </>
     )
