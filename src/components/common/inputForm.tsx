@@ -1,11 +1,8 @@
 import React from 'react'
 
-interface IInputProps{
-    label:string,
-    labelClassName?:string,
-    type:string,
-    className:string
-}
+import IInputProps from '../../core/interface/PropInterface/IInputProps'
+
+
 const InputForm: React.FC<IInputProps> = ({label,labelClassName,type,className}) => {
     return (
         <div>

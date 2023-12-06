@@ -1,5 +1,7 @@
 import React from 'react'
+
 import LoginForm from './loginForm/LoginForm'
+
 import logo from '../../assets/images/logo/logo.png'
 
 const LoginHolder = () => {
