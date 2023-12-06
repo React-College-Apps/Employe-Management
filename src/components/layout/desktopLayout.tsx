@@ -1,10 +1,18 @@
+import { useEffect } from "react";
+
 import { IoMdMenu } from "react-icons/io";
 
 import logo from '../../assets/images/logo/logo.png'
 
 import sideBarData from '../../constant/sidebar'
+import { Link } from "react-router-dom";
 
-const Desktopleyout = ({ buttonClick }: { buttonClick: () => any }) => {
+const Desktopleyout = ({ buttonClick, activePage }: { buttonClick: () => any, activePage: string }) => {
+    console.log(activePage)
+    useEffect(() => {
+
+    }, [])
+
     return (
         <>
             <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col font-semibold">
@@ -22,18 +30,16 @@ const Desktopleyout = ({ buttonClick }: { buttonClick: () => any }) => {
                             <li>
                                 <ul role="list" className="-mx-2 space-y-1">
                                     {sideBarData.map((item: any) => (
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                        <li key={item.name}>
+                                            <Link
+                                                to={`/${item.name.toLowerCase()}`}
+                                                className={`${"/" + item.name.toLowerCase() === activePage ? 'bg-gray-800' : 'bg-gray-900'} text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
                                             >
                                                 {item.icon}
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         </li>
                                     ))}
-
-
                                 </ul>
                             </li>
 
@@ -44,7 +50,7 @@ const Desktopleyout = ({ buttonClick }: { buttonClick: () => any }) => {
             </div>
             <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
                 <button onClick={buttonClick} type="button" className="-m-2.5 p-2.5 text-gray-400 lg:hidden">
-                <IoMdMenu />
+                    <IoMdMenu />
 
                 </button>
                 <div className="flex-1 text-sm font-semibold leading-6 text-white">
