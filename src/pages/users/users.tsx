@@ -8,6 +8,7 @@ import DashboardLayout from '../../components/layout/dashboardLayout'
 import UserJson from '../../constant/users.json'
 import SortingOptions from '../../components/users/sortingOption/sortingOption'
 import UserTable from '../../components/users/userList/userList'
+import Pagination from '../../components/pagination/pagination'
 
 const Users = () => {
     const usersWithCheckbox = UserJson.map(user => ({
@@ -17,10 +18,11 @@ const Users = () => {
 
     const [users, setUsers] = useState<IUserInterface[]>(usersWithCheckbox);
     const [allChecked, setAllChecked] = useState<boolean>(false);
-    const [sortByName, setSortByName] = useState('');
-    const [sortByTitle, setSortByTitle] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [sortByName, setSortByName] = useState<string>('');
+    const [sortByTitle, setSortByTitle] = useState<string>('');
+    const [sortByStatus, setSortByStatus] = useState<string>('');
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage] = useState<number>(10);
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
@@ -33,50 +35,11 @@ const Users = () => {
         setUsers(updatedUsers);
     };
 
-    const handleSortChange = (key: 'name' | 'title', value: string) => {
-        if (key === 'name') {
-            setSortByName(value);
-            setSortByTitle('');
-        } else {
-            setSortByTitle(value);
-            setSortByName('');
-        }
-    };
-
-    const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'name' | 'position', order: string) => {
-        return order === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
-    };
-
-    const getSortedUsers = () => {
-        return [...currentItems].sort((a, b) => {
-            if (sortByName) return compareUsers(a, b, 'name', sortByName);
-            if (sortByTitle) return compareUsers(a, b, 'position', sortByTitle);
-            return 0;
-        });
-    };
-
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
-
+    const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(users.length / itemsPerPage);
 
-    const renderPagination = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(i);
-        }
-
-        return pageNumbers.map(number => (
-            <button
-                key={number}
-                onClick={() => setCurrentPage(number)}
-                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${currentPage === number ? 'bg-[#0099CC] text-white' : ''}`}
-            >
-                {number}
-            </button>
-        ));
-    };
 
     return (
         <DashboardLayout>
@@ -104,29 +67,20 @@ const Users = () => {
                             <SortingOptions
                                 sortByName={sortByName}
                                 sortByTitle={sortByTitle}
-                                onSortChange={handleSortChange}
-                            />
+                                sortByStatus={sortByStatus} onSortChange={function (key: 'name' | 'title', value: string): void {
+                                    throw new Error('Function not implemented.')
+                                }} />
                             <UserTable
-                                users={getSortedUsers()}
+                                users={currentUsers}
                                 allChecked={allChecked}
                                 onCheckAll={toggleAllCheckboxes}
                                 onCheck={toggleCheckbox}
                             />
-                            <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                                    <div>
-                                        <p className="text-sm text-gray-700">
-                                            Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to <span className="font-medium">{indexOfLastItem}</span> of{' '}
-                                            <span className="font-medium">{users.length}</span> results
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                                            {renderPagination()}
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
+                            />
                         </div>
                     </div>
                 </div>
