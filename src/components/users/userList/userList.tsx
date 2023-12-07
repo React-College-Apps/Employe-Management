@@ -52,6 +52,9 @@ const UserTable: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, on
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {user.email}
                                 </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {user.gender ? "🙎🏻‍♂️Male" : "🙎🏻‍♀️Female"}
+                                </td>
                                 <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                                     <div className="flex items-center justify-end gap-x-2 sm:justify-start">
                                         {user.isActive ? <>

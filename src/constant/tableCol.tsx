@@ -1,5 +1,5 @@
 const tableCol = [
-    "Name", "Title", "Email", "Status", "Action"
+    "Name", "Title", "Email", "Gender", "Status", "Action"
 ]
 
 export default tableCol

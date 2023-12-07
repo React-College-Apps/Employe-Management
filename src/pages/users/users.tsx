@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import IUserInterface from '../../core/interface/IUserInterface'
 
@@ -19,10 +19,18 @@ const Users = () => {
     const [users, setUsers] = useState<IUserInterface[]>(usersWithCheckbox);
     const [allChecked, setAllChecked] = useState<boolean>(false);
     const [sortByName, setSortByName] = useState<string>('');
-    const [sortByTitle, setSortByTitle] = useState<string>('');
+    const [sortByGender, setSortByGender] = useState<string>('');
+    const [sortByPosition, setSortByPosition] = useState<string>('');
     const [sortByStatus, setSortByStatus] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(10);
+    const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const totalPages = Math.ceil(users.length / itemsPerPage);
+
+
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
@@ -35,11 +43,62 @@ const Users = () => {
         setUsers(updatedUsers);
     };
 
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(users.length / itemsPerPage);
+    const sortByNameHandler = (input: string) => {
+        setSortByName(input)
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) =>
+            input === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+        );
+        setUsers(sortedUsers);
+    };
 
+
+    const sortByPositionHandler = (input: string) => {
+        setSortByPosition(input)
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) =>
+            input === "asc" ? a.position.localeCompare(b.position) : b.position.localeCompare(a.position)
+        );
+        setUsers(sortedUsers);
+    };
+
+    const sortByStatusHandler = (input: string) => {
+        console.log(input);
+    
+        setSortByStatus(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            if (input === "active") {
+                return (a.status === b.status) ? 0 : a.status ? -1 : 1;
+            } else {
+                return (a.status === b.status) ? 0 : a.status ? 1 : -1;
+            }
+        });
+        setUsers(sortedUsers);
+    };
+    
+    
+
+
+    const setSortByGenderHandler = (input: string) => {
+        console.log(input)
+        setSortByGender(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            if (input === "male") {
+                return (a.gender === b.gender) ? 0 : a.gender ? -1 : 1;
+            } else {
+                return (a.gender === b.gender) ? 0 : a.gender ? 1 : -1;
+            }
+        });
+        setUsers(sortedUsers);
+    };
+
+
+
+    useEffect(() => {
+        setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
+    }, [users, currentPage, itemsPerPage]);
 
     return (
         <DashboardLayout>
@@ -65,11 +124,14 @@ const Users = () => {
                         </div>
                         <div className="mt-8 flow-root">
                             <SortingOptions
+                                sortByStatus={sortByStatus}
                                 sortByName={sortByName}
-                                sortByTitle={sortByTitle}
-                                sortByStatus={sortByStatus} onSortChange={function (key: 'name' | 'title' | 'status', value: string): void {
-                                    throw new Error('Function not implemented.')
-                                } }                                />
+                                sortByPosition={sortByPosition}
+                                setSortByName={sortByNameHandler}
+                                setSortByPosition={sortByPositionHandler}
+                                setSortByStatus={sortByStatusHandler}
+                                setSortByGender={setSortByGenderHandler}
+                                sortByGender={sortByGender} />
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
