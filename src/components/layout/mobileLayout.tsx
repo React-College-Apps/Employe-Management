@@ -28,8 +28,8 @@ const MobileLayout = ({ isOpen, closeSideBar }: { isOpen: boolean, closeSideBar:
                                 <ul role="list" className="flex flex-1 flex-col gap-y-7">
                                     <li>
                                         <ul role="list" className="-mx-2 space-y-1">
-                                            {sideBarData.map((item: any) => (
-                                                <li>
+                                            {sideBarData.map((item: any, index:any) => (
+                                                <li key={index}>
                                                     <a
                                                         href="#"
                                                         className="bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"

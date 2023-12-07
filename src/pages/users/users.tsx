@@ -1,9 +1,41 @@
 import { useState, useId } from 'react'
+
 import IUserInterface from '../../core/interface/IUserInterface'
+
 import DashboardLayout from '../../components/layout/dashboardLayout'
 
+import tableCol from '../../constant/tableCol'
+
+
 const Users = () => {
-    const [users, setUsers] = useState<IUserInterface[]>([{ id: useId(), name: "salar", email: "salar.nili097@gmail.com", isActive: true, role: "admin", isChecked: true, position: "Frontend Developer" }])
+    const [users, setUsers] = useState<IUserInterface[]>([
+        {
+            id: useId(),
+            name: "salar",
+            email: "salar.nili097@gmail.com",
+            isActive: true,
+            role: "admin",
+            isChecked: true,
+            position: "Frontend Developer"
+        },
+        {
+            id: useId(),
+            name: "salar",
+            email: "salar.nili097@gmail.com",
+            isActive: true,
+            role: "admin",
+            isChecked: true,
+            position: "Frontend Developer"
+        }, {
+            id: useId(),
+            name: "salar",
+            email: "salar.nili097@gmail.com",
+            isActive: true,
+            role: "admin",
+            isChecked: true,
+            position: "Frontend Developer"
+        },
+    ])
     return (
         <DashboardLayout>
             <h1>Users</h1>
@@ -40,41 +72,20 @@ const Users = () => {
                                                             className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                                         />
                                                     </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Name
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Title
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Email
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Role
-                                                    </th>
-                                                    <th scope="col" className="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20">Status</th>
-
-                                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
-                                                        <span className="sr-only">Edit</span>
-                                                    </th>
+                                                    {tableCol.map((item, index) => (
+                                                        <th
+                                                            key={index}
+                                                            scope="col"
+                                                            className="min-w-[12rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                        >
+                                                            {item}
+                                                        </th>
+                                                    ))}
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 bg-white">
-                                                {users.map((user: IUserInterface) => (<>
-
-                                                    <tr>
+                                                {users.map((user: IUserInterface) => (
+                                                    <tr  key={user.id}>
                                                         <td className="relative px-7 sm:w-12 sm:px-6">
                                                             <input
                                                                 type="checkbox"
@@ -96,9 +107,10 @@ const Users = () => {
                                                         </td>
                                                         <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                                                             <div className="flex items-center justify-end gap-x-2 sm:justify-start">
-                                                                {user.isActive ? <>                                                                <div className="flex-none rounded-full p-1 text-green-400 bg-green-400/10">
-                                                                    <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
-                                                                </div>
+                                                                {user.isActive ? <>
+                                                                    <div className="flex-none rounded-full ml-2 p-1 text-green-400 bg-green-400/10">
+                                                                        <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
+                                                                    </div>
                                                                     <div className="hidden text-black sm:block">Active</div></> : <>
                                                                     <div className="flex-none rounded-full p-1 text-rose-400 bg-rose-400/10">
                                                                         <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
@@ -107,16 +119,16 @@ const Users = () => {
                                                                 </>}
                                                             </div>
                                                         </td>
-                                                        <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                                                        <td className="whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-3">
                                                             <a
                                                                 href="#"
                                                                 className="text-indigo-600 hover:text-indigo-900"
                                                             >
-                                                                Edit<span className="sr-only">, Lindsay Walton</span>
+                                                                Edit
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                </>))}
+                                                ))}
 
                                             </tbody>
                                         </table>

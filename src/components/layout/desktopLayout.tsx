@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 
 import { IoMdMenu } from "react-icons/io";
 
@@ -8,10 +7,6 @@ import sideBarData from '../../constant/sidebar'
 import { Link } from "react-router-dom";
 
 const Desktopleyout = ({ buttonClick, activePage }: { buttonClick: () => any, activePage: string }) => {
-    console.log(activePage)
-    useEffect(() => {
-
-    }, [])
 
     return (
         <>
