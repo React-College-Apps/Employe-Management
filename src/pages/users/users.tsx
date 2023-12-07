@@ -1,98 +1,61 @@
-import { useState, useId } from 'react'
+import { useState } from 'react'
 
 import IUserInterface from '../../core/interface/IUserInterface'
 
 import DashboardLayout from '../../components/layout/dashboardLayout'
 
-import tableCol from '../../constant/tableCol'
 
+import UserJson from '../../constant/users.json'
+import SortingOptions from '../../components/users/sortingOption/sortingOption'
+import UserTable from '../../components/users/userList/userList'
 
 const Users = () => {
-    const [users, setUsers] = useState<IUserInterface[]>([
-        {
-            id: useId(),
-            name: "salar",
-            email: "salar.nili097@gmail.com",
-            isActive: true,
-            role: "admin",
-            isChecked: false,
-            position: "Frontend Developer"
-        },
-        {
-            id: useId(),
-            name: "reza",
-            email: "salar.nili097@gmail.com",
-            isActive: true,
-            role: "admin",
-            isChecked: false,
-            position: "Backend Developer"
-        }, {
-            id: useId(),
-            name: "salar",
-            email: "salar.nili097@gmail.com",
-            isActive: true,
-            role: "admin",
-            isChecked: false,
-            position: "Frontend Developer"
-        },
-    ])
+    const usersWithCheckbox = UserJson.map(user => ({
+        ...user,
+        isChecked: false
+    }));
 
-    const [isChecked, setIsChecked] = useState<boolean>(false)
-    const [sortByName, setSortByName] = useState<any>('');
-    const [sortByTitle, setSortByTitle] = useState<any>('');
-
-    const checkAllHandler = () => {
-        const areAllChecked = users.every(user => user.isChecked);
-        console.log(areAllChecked)
-        setUsers(users.map(user => ({
-            ...user,
-            isChecked: !areAllChecked
-        })));
-
-        setIsChecked(!isChecked)
+    const [users, setUsers] = useState<IUserInterface[]>(usersWithCheckbox);
+    const [allChecked, setAllChecked] = useState<boolean>(false);
+    const [sortByName, setSortByName] = useState('');
+    const [sortByTitle, setSortByTitle] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    
+    const toggleAllCheckboxes = () => {
+        const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
+        setUsers(updatedUsers);
+        setAllChecked(!allChecked);
     };
 
-
-    const checkHandler = (id: string) => {
-        setUsers(users.map(user => {
-            if (user.id === id) {
-                return { ...user, isChecked: !user.isChecked }
-            }
-            return user
-        }))
-    }
-
-
-    const handleSortNameChange = (e: any) => {
-        setSortByName(e.target.value);
-        setSortByTitle(null);
+    const toggleCheckbox = (id: number) => {
+        const updatedUsers = users.map(user => user.id === id ? { ...user, isChecked: !user.isChecked } : user);
+        setUsers(updatedUsers);
     };
 
-    const handleSortTitleChange = (e: any) => {
-        setSortByTitle(e.target.value);
-        setSortByName(null);
-    };
-
-    const compareByCriteria = (a: any, b: any, key: any, order: any) => {
-        if (order === 'asc') {
-            return a[key].localeCompare(b[key]);
-        } else if (order === 'desc') {
-            return b[key].localeCompare(a[key]);
+    const handleSortChange = (key: 'name' | 'title', value: string) => {
+        if (key === 'name') {
+            setSortByName(value);
+            setSortByTitle('');
+        } else {
+            setSortByTitle(value);
+            setSortByName('');
         }
-        return 0;
     };
 
-    const sortedUsers = [...users].sort((a, b) => {
-        let result = 0;
-        if (sortByName) {
-            result = compareByCriteria(a, b, 'name', sortByName);
-        }
-        if (result === 0 && sortByTitle) {
-            result = compareByCriteria(a, b, 'position', sortByTitle);
-        }
-        return result;
-    });
+    const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'name' | 'position', order: string) => {
+        return order === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+    };
 
+    const getSortedUsers = () => {
+        return [...users].sort((a, b) => {
+            if (sortByName) return compareUsers(a, b, 'name', sortByName);
+            if (sortByTitle) return compareUsers(a, b, 'position', sortByTitle);
+            return 0;
+        });
+    };
+
+    
     return (
         <DashboardLayout>
             <h1>Users</h1>
@@ -116,117 +79,17 @@ const Users = () => {
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
-                            <div className='grid grid-cols-3 mb-3 w-1/2 gap-3'>
-
-                                <div>
-                                    <label htmlFor="Sort By Name" className="block text-sm font-medium leading-6 text-gray-900">Sort By Name</label>
-                                    <select
-                                        value={sortByName}
-                                        onChange={handleSortNameChange}
-                                        id="sortByName"
-                                        name="name"
-                                        className="outline-none mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-                                        <option value=''>Select Option</option>
-                                        <option value="asc">Name (A to Z)</option>
-                                        <option value="desc">Name (Z to A)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label htmlFor="Sort By Title" className="block text-sm font-medium leading-6 text-gray-900">Sort By Title</label>
-                                    <select
-                                        value={sortByTitle}
-                                        onChange={handleSortTitleChange}
-                                        id="sortByTitle"
-                                        name="title"
-                                        className="outline-none mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    >
-                                        <option value=''>Select Option</option>
-                                        <option value="asc">Title (A to Z)</option>
-                                        <option value="desc">Title (Z to A)</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                                    <div className="relative">
-                                        <table className="min-w-full table-fixed divide-y divide-gray-300">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" className="relative px-7 sm:w-12 sm:px-6">
-                                                        <input
-                                                            checked={isChecked}
-                                                            onChange={checkAllHandler}
-                                                            type="checkbox"
-                                                            className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                                        />
-                                                    </th>
-                                                    {tableCol.map((item, index) => (
-                                                        <th
-                                                            key={index}
-                                                            scope="col"
-                                                            className="min-w-[12rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            {item}
-                                                        </th>
-                                                    ))}
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200 bg-white">
-                                                {sortedUsers.map((user: IUserInterface) => (
-                                                    <tr key={user.id}>
-                                                        <td className="relative px-7 sm:w-12 sm:px-6">
-                                                            <input
-                                                                onChange={() => checkHandler(user.id)}
-                                                                type="checkbox"
-                                                                checked={user.isChecked}
-                                                                className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                                            />
-                                                        </td>
-                                                        <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900">
-                                                            {user.name}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {user.position}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {user.email}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {user.role}
-                                                        </td>
-                                                        <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
-                                                            <div className="flex items-center justify-end gap-x-2 sm:justify-start">
-                                                                {user.isActive ? <>
-                                                                    <div className="flex-none rounded-full ml-2 p-1 text-green-400 bg-green-400/10">
-                                                                        <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
-                                                                    </div>
-                                                                    <div className="hidden text-black sm:block">Active</div></> : <>
-                                                                    <div className="flex-none rounded-full p-1 text-rose-400 bg-rose-400/10">
-                                                                        <div className="h-1.5 w-1.5 rounded-full bg-current"></div>
-                                                                    </div>
-                                                                    <div className="hidden text-black sm:block">Error</div>
-                                                                </>}
-                                                            </div>
-                                                        </td>
-                                                        <td className="whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-3">
-                                                            <a
-                                                                href="#"
-                                                                className="text-indigo-600 hover:text-indigo-900"
-                                                            >
-                                                                Edit
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                            <SortingOptions
+                                sortByName={sortByName}
+                                sortByTitle={sortByTitle}
+                                onSortChange={handleSortChange}
+                            />
+                            <UserTable
+                                users={getSortedUsers()}
+                                allChecked={allChecked}
+                                onCheckAll={toggleAllCheckboxes}
+                                onCheck={toggleCheckbox}
+                            />
                         </div>
                     </div>
                 </div>
@@ -234,5 +97,7 @@ const Users = () => {
         </DashboardLayout>
     )
 }
+
+
 
 export default Users

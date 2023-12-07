@@ -1,11 +1,12 @@
-interface IUserInterface {
-    id:any,
-    isChecked: boolean
-    name: string
-    position: string
-    email: string
-    role: string
-    isActive: boolean
-  }
+export interface IUserInterface {
+  id: number;
+  name: string;
+  email: string;
+  isActive: boolean;
+  position: string;
+  gender: boolean;
+  isChecked: boolean;
+  status:boolean
+}
 
-export default IUserInterface
+export default IUserInterface;
