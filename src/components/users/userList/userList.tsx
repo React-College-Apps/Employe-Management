@@ -3,12 +3,8 @@ import React from 'react';
 import IUserInterface from '../../../core/interface/IUserInterface';
 import tableCol from '../../../constant/tableCol'
 
-type UserTableProps = {
-    users: IUserInterface[];
-    allChecked: boolean;
-    onCheckAll: () => void;
-    onCheck: (id: number) => void;
-};
+import UserTableProps from '../../../core/types/UserTable.type';
+
 
 const UserTable: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck }) => {
     return (

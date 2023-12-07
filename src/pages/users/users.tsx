@@ -67,9 +67,9 @@ const Users = () => {
                             <SortingOptions
                                 sortByName={sortByName}
                                 sortByTitle={sortByTitle}
-                                sortByStatus={sortByStatus} onSortChange={function (key: 'name' | 'title', value: string): void {
+                                sortByStatus={sortByStatus} onSortChange={function (key: 'name' | 'title' | 'status', value: string): void {
                                     throw new Error('Function not implemented.')
-                                }} />
+                                } }                                />
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
