@@ -15,16 +15,16 @@ const Users = () => {
             email: "salar.nili097@gmail.com",
             isActive: true,
             role: "admin",
-            isChecked: true,
+            isChecked: false,
             position: "Frontend Developer"
         },
         {
             id: useId(),
-            name: "salar",
+            name: "reza",
             email: "salar.nili097@gmail.com",
             isActive: true,
             role: "admin",
-            isChecked: true,
+            isChecked: false,
             position: "Frontend Developer"
         }, {
             id: useId(),
@@ -32,10 +32,50 @@ const Users = () => {
             email: "salar.nili097@gmail.com",
             isActive: true,
             role: "admin",
-            isChecked: true,
+            isChecked: false,
             position: "Frontend Developer"
         },
     ])
+
+    const [isChecked, setIsChecked] = useState<boolean>(false)
+    const [sortCriteria, setSortCriteria] = useState('default'); // Default sort by name
+
+    // Function to handle sort criteria change
+    const checkAllHandler = () => {
+        const areAllChecked = users.every(user => user.isChecked);
+        console.log(areAllChecked)
+        setUsers(users.map(user => ({
+            ...user,
+            isChecked: !areAllChecked
+        })));
+
+        setIsChecked(!isChecked)
+    };
+
+
+    const checkHandler = (id: string) => {
+        setUsers(users.map(user => {
+            if (user.id === id) {
+                return { ...user, isChecked: !user.isChecked }
+            }
+            return user
+        }))
+    }
+
+    const handleSortChange = (e: any) => {
+        setSortCriteria(e.target.value);
+    };
+
+    const sortedUsers = [...users].sort((a, b) => {
+        if (sortCriteria === 'name-asc') {
+            return a.name.localeCompare(b.name);
+        } else if (sortCriteria === 'name-desc') {
+            return b.name.localeCompare(a.name);
+        }
+        return 0;
+    });
+
+
     return (
         <DashboardLayout>
             <h1>Users</h1>
@@ -46,8 +86,7 @@ const Users = () => {
                         <div className="sm:flex sm:items-center">
                             <div className="sm:flex-auto">
                                 <p className="mt-2 text-sm text-gray-700">
-                                    A list of all the users in your account including their name, title,
-                                    email and role.
+                                    A list of all the Queara Employes That Work In Quera Or Juniora
                                 </p>
                             </div>
                             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -60,6 +99,19 @@ const Users = () => {
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
+                            <div className='grid grid-cols-3 mb-3 w-1/2'>
+                                <div>
+                                    <label htmlFor="Sort By Name" className="block text-sm font-medium leading-6 text-gray-900">Location</label>
+                                    <select value={sortCriteria} onChange={handleSortChange} id="location" name="location" className="outline-none mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <option value={'default'}>Select Option</option>
+                                        <option value="name-asc">Name (A to Z)</option>
+                                        <option value="name-desc">Name (Z to A)</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
                             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                     <div className="relative">
@@ -68,6 +120,8 @@ const Users = () => {
                                                 <tr>
                                                     <th scope="col" className="relative px-7 sm:w-12 sm:px-6">
                                                         <input
+                                                            checked={isChecked}
+                                                            onChange={checkAllHandler}
                                                             type="checkbox"
                                                             className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                                         />
@@ -84,12 +138,13 @@ const Users = () => {
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 bg-white">
-                                                {users.map((user: IUserInterface) => (
-                                                    <tr  key={user.id}>
+                                                {sortedUsers.map((user: IUserInterface) => (
+                                                    <tr key={user.id}>
                                                         <td className="relative px-7 sm:w-12 sm:px-6">
                                                             <input
+                                                                onChange={() => checkHandler(user.id)}
                                                                 type="checkbox"
-                                                                value={user.isChecked}
+                                                                checked={user.isChecked}
                                                                 className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                                             />
                                                         </td>

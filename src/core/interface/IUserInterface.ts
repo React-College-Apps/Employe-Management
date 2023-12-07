@@ -1,6 +1,6 @@
 interface IUserInterface {
     id:any,
-    isChecked: any
+    isChecked: boolean
     name: string
     position: string
     email: string
