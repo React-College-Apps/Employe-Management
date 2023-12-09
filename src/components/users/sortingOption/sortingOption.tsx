@@ -71,8 +71,9 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosi
                 options={sortByGenderOptions}
                 id={"sortByGender"}
             />
-            <InputForm onChange={(e) => onSearchChange(e.target.value)} label={'Search'} type={'search'} className={'px-2'} />
-
+            <div className="col-span-2">
+                <InputForm onChange={(e) => onSearchChange(e.target.value)} label={'Search'} type={'search'} className={'px-2'} />
+            </div>
 
         </div>
     );
