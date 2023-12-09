@@ -1,3 +1,4 @@
+import InputForm from "../../common/inputForm";
 import SelectInput from "../../common/selectInput";
 
 interface ISortingOptionsProps {
@@ -9,9 +10,10 @@ interface ISortingOptionsProps {
     setSortByStatus: any
     setSortByGender: any
     sortByGender: string
+    onSearchChange: any
 };
 
-const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosition, sortByStatus, setSortByName, setSortByPosition, setSortByStatus, setSortByGender, sortByGender }) => {
+const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosition, sortByStatus, setSortByName, setSortByPosition, setSortByStatus, setSortByGender, sortByGender, onSearchChange }) => {
 
     const sortByNameOptions = [{
         title: "Name (A to Z)", value: "asc"
@@ -69,6 +71,7 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosi
                 options={sortByGenderOptions}
                 id={"sortByGender"}
             />
+            <InputForm onChange={(e) => onSearchChange(e.target.value)} label={'Search'} type={'search'} className={'px-2'} />
 
 
         </div>

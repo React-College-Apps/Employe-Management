@@ -25,6 +25,8 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(10);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
+    const [searchQuery, setSearchQuery] = useState<string>("")
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -63,7 +65,7 @@ const Users = () => {
     };
 
     const sortByStatusHandler = (input: string) => {
-    
+
         setSortByStatus(input);
         const sortedUsers = [...users];
         sortedUsers.sort((a, b) => {
@@ -75,8 +77,8 @@ const Users = () => {
         });
         setUsers(sortedUsers);
     };
-    
-    
+
+
 
 
     const setSortByGenderHandler = (input: string) => {
@@ -92,7 +94,9 @@ const Users = () => {
         setUsers(sortedUsers);
     };
 
+    const searchInTableHandler = () => {
 
+    }
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -121,6 +125,7 @@ const Users = () => {
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
+
                             <SortingOptions
                                 sortByStatus={sortByStatus}
                                 sortByName={sortByName}
@@ -129,7 +134,8 @@ const Users = () => {
                                 setSortByPosition={sortByPositionHandler}
                                 setSortByStatus={sortByStatusHandler}
                                 setSortByGender={setSortByGenderHandler}
-                                sortByGender={sortByGender} />
+                                sortByGender={sortByGender}
+                                onSearchChange={setSearchQuery} />
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
