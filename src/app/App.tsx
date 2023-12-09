@@ -12,8 +12,8 @@ import Users from '../pages/users/users';
 import CreateUser from '../pages/createUser/createUser';
 
 import { UserProvider } from '../context/User.Context';
+import EditUser from '../pages/editUser/editUser';
 function App() {
-  const token = getItem("token")
 
   return (
     <UserProvider>
@@ -23,6 +23,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
           <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/edituser/:id" element={<EditUser />} />
 
         </Routes>
       </Router>

@@ -4,8 +4,8 @@ type UserTableProps = {
     users: IUserInterface[];
     allChecked: boolean;
     onCheckAll: () => void;
-    onCheck: (id: number) => void;
-    deleteUser:(id:number) => void
+    onCheck: (id: any) => void;
+    deleteUser:(id:any) => void
 };
 
 

@@ -1,11 +1,11 @@
 export interface IUserInterface {
-  id: number
+  id?: number
   username: string
   email: string
-  isActive: boolean
+  isActive?: boolean
   position: string
   isChecked?:boolean
-  password: string
+  password?: string
   personalInfo: PersonalInfo
 }
 
