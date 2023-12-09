@@ -129,6 +129,12 @@ const Users = () => {
         setSelectedUser(id)
         setDeleteModel(true)
     }
+
+    const resetDataHandler = ()=>{
+        setUsers(usersWithCheckbox)
+        setItem("users", JSON.stringify(usersWithCheckbox))
+    }
+
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
@@ -156,16 +162,17 @@ const Users = () => {
                                     A list of all the Quera Employes That Work In Quera Or Juniora
                                 </p>
                             </div>
-                            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex space-x-3">
                                 <Link
                                     className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   "
                                     to={'/createuser'}
                                 >
 
                                     Add user
-
                                 </Link>
-
+                                <button className="block rounded-md bg-yellow-500 hover:bg-yellow-400 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " onClick={resetDataHandler}>
+                                    Reset Data
+                                </button>
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
