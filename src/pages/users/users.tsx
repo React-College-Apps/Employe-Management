@@ -11,6 +11,7 @@ import UserTable from '../../components/users/userList/userList'
 import Pagination from '../../components/pagination/pagination'
 import { Link } from 'react-router-dom'
 import { getItem, setItem } from '../../core/storage/storage'
+import Modal from '../../components/modal/modal'
 
 const Users = () => {
     const usersWithCheckbox = UserJson.map(user => ({
@@ -27,7 +28,8 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(10);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
-
+    const [deleteModel, setDeleteModel] = useState<boolean>(false)
+    const [selectedUser, setSelectedUser] = useState<number>(0)
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -108,12 +110,17 @@ const Users = () => {
         }
     };
 
-    const deleteUserHandler = (id: number) => {
-        const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+    const deleteUserHandler = () => {
+        const newUser: IUserInterface[] = users.filter(user => user.id !== selectedUser);
         setItem("users", JSON.stringify(newUser))
         setUsers(newUser)
+        setDeleteModel(false)
     }
 
+    const selectUserToDelete = (id: number) => {
+        setSelectedUser(id)
+        setDeleteModel(true)
+    }
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
@@ -169,12 +176,15 @@ const Users = () => {
                                 users={currentUsers}
                                 allChecked={allChecked}
                                 onCheckAll={toggleAllCheckboxes}
-                                onCheck={toggleCheckbox} deleteUser={deleteUserHandler} />
+                                onCheck={toggleCheckbox}
+                                deleteUser={selectUserToDelete}
+                            />
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}
                                 setCurrentPage={setCurrentPage}
                             />
+                            {deleteModel && <Modal deleteUser={deleteUserHandler} cancel={() => setDeleteModel(false)} />}
                         </div>
                     </div>
                 </div>
