@@ -56,7 +56,7 @@ const Users = () => {
         setSortByName(input)
         const sortedUsers = [...users];
         sortedUsers.sort((a, b) =>
-            input === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+            input === "asc" ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username)
         );
         setUsers(sortedUsers);
     };
@@ -93,9 +93,9 @@ const Users = () => {
         const sortedUsers = [...users];
         sortedUsers.sort((a, b) => {
             if (input === "male") {
-                return (a.gender === b.gender) ? 0 : a.gender ? -1 : 1;
+                return (a.personalInfo.gender === b.personalInfo.gender) ? 0 : a.personalInfo.gender ? -1 : 1;
             } else {
-                return (a.gender === b.gender) ? 0 : a.gender ? 1 : -1;
+                return (a.personalInfo.gender === b.personalInfo.gender) ? 0 : a.personalInfo.gender ? 1 : -1;
             }
         });
         setUsers(sortedUsers);
@@ -106,7 +106,7 @@ const Users = () => {
             setUsers(usersWithCheckbox);
         } else {
             const filteredUsers = users.filter(user =>
-                user.name.toLowerCase().includes(value.toLowerCase()) ||
+                user.username.toLowerCase().includes(value.toLowerCase()) ||
                 user.position.toLowerCase().includes(value.toLowerCase()) ||
                 user.email.toLowerCase().includes(value.toLowerCase())
             );

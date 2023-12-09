@@ -6,7 +6,7 @@ import tableCol from '../../../constant/tableCol'
 import UserTableProps from '../../../core/types/UserTable.type';
 
 
-const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck,deleteUser }) => {
+const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck, deleteUser }) => {
     return (
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -35,6 +35,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                     <tbody className="divide-y divide-gray-200 bg-white">
                         {users.map((user: IUserInterface) => (
                             <tr key={user.id}>
+
                                 <td className="relative px-7 sm:w-12 sm:px-6">
                                     <input
                                         type="checkbox"
@@ -44,7 +45,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     />
                                 </td>
                                 <td className=" whitespace-nowrap py-4 p-3 text-sm font-medium text-gray-900">
-                                    {user.name}
+                                    {user.username}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {user.position}
@@ -53,7 +54,10 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     {user.email}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {user.gender ? "🙎🏻‍♂️Male" : "🙎🏻‍♀️Female"}
+                                    {user.personalInfo?.gender ? "🙎🏻‍♂️Male" : "🙎🏻‍♀️Female"}
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {user.personalInfo.age}
                                 </td>
                                 <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                                     <div className="flex items-center justify-end gap-x-2 sm:justify-start">
