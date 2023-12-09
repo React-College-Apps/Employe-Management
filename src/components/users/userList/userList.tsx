@@ -6,7 +6,7 @@ import tableCol from '../../../constant/tableCol'
 import UserTableProps from '../../../core/types/UserTable.type';
 
 
-const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck }) => {
+const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck,deleteUser }) => {
     return (
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -76,7 +76,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     >
                                         Edit
                                     </a>
-                                    <button type="button" className="rounded bg-red-600 px-2 py-1 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Delete</button>
+                                    <button type="button" onClick={() => deleteUser(user.id)} className="rounded bg-red-600 px-2 py-1 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Delete</button>
 
                                 </td>
                             </tr>

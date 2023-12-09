@@ -107,6 +107,11 @@ const Users = () => {
         }
     };
 
+    const deleteUserHandler = (id: number) => {
+        const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+        setUsers(newUser)
+    }
+
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
@@ -126,7 +131,7 @@ const Users = () => {
                             </div>
                             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                                 <Link
-                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " 
+                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   "
                                     to={'/createuser'}
                                 >
 
@@ -152,8 +157,7 @@ const Users = () => {
                                 users={currentUsers}
                                 allChecked={allChecked}
                                 onCheckAll={toggleAllCheckboxes}
-                                onCheck={toggleCheckbox}
-                            />
+                                onCheck={toggleCheckbox} deleteUser={deleteUserHandler} />
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}

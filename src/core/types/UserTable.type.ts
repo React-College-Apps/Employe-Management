@@ -5,6 +5,7 @@ type UserTableProps = {
     allChecked: boolean;
     onCheckAll: () => void;
     onCheck: (id: number) => void;
+    deleteUser:(id:number) => void
 };
 
 
