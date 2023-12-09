@@ -10,6 +10,7 @@ import SortingOptions from '../../components/users/sortingOption/sortingOption'
 import UserTable from '../../components/users/userList/userList'
 import Pagination from '../../components/pagination/pagination'
 import { Link } from 'react-router-dom'
+import { getItem, setItem } from '../../core/storage/storage'
 
 const Users = () => {
     const usersWithCheckbox = UserJson.map(user => ({
@@ -109,12 +110,23 @@ const Users = () => {
 
     const deleteUserHandler = (id: number) => {
         const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+        setItem("users", JSON.stringify(newUser))
         setUsers(newUser)
     }
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
+
+    useEffect(() => {
+        const userExist = getItem('users')
+        if (userExist) {
+            setUsers(JSON.parse(userExist))
+        }
+        else {
+            setUsers(usersWithCheckbox)
+        }
+    }, [])
 
     return (
         <DashboardLayout>
