@@ -11,11 +11,12 @@ import Dashboard from '../pages/dashboard/dashboard';
 import Users from '../pages/users/users';
 import CreateUser from '../pages/createUser/createUser';
 
+import { UserProvider } from '../context/User.Context';
 function App() {
   const token = getItem("token")
 
   return (
-    <>
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -26,7 +27,7 @@ function App() {
         </Routes>
       </Router>
       {/* {token ? null : <Login />} */}
-    </>
+    </UserProvider>
 
   );
 }

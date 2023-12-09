@@ -3,7 +3,7 @@ import React from 'react'
 import IInputProps from '../../core/interface/PropInterface/IInputProps'
 
 
-const InputForm: React.FC<IInputProps> = ({ label, labelClassName, type, className, onChange }) => {
+const InputForm: React.FC<IInputProps> = ({ label, labelClassName, type, className, onChange, value }) => {
     return (
         <div>
             <label
@@ -16,6 +16,7 @@ const InputForm: React.FC<IInputProps> = ({ label, labelClassName, type, classNa
                 <input
                     id={label}
                     name={label}
+                    value={value}
                     type={type}
                     onChange={onChange}
                     autoComplete="current-password"

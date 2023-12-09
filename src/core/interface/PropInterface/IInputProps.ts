@@ -2,7 +2,8 @@ interface IInputProps{
     label:string,
     labelClassName?:string,
     type:string,
-    className:string
+    value?:string | number
+    className?:string
     onChange?:(e:any)=> any;
 }
 

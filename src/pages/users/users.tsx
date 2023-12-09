@@ -13,15 +13,17 @@ import Alert from '../../components/alert/alert'
 
 import UserJson from '../../constant/users.json'
 import { getItem, setItem } from '../../core/storage/storage'
+import { useUsers } from '../../context/User.Context'
 
 
 const Users = () => {
-    const usersWithCheckbox = UserJson.map(user => ({
+    const usersWithCheckbox = UserJson.map((user:IUserInterface) => ({
         ...user,
         isChecked: false
     }));
 
-    const [users, setUsers] = useState<IUserInterface[]>(usersWithCheckbox);
+    const { users, setUsers } = useUsers();
+
     const [allChecked, setAllChecked] = useState<boolean>(false);
     const [sortByName, setSortByName] = useState<string>('');
     const [sortByGender, setSortByGender] = useState<string>('');
@@ -141,7 +143,7 @@ const Users = () => {
         sortedUsers.sort((a, b) => {
             const ageA = a.personalInfo?.age || 0;
             const ageB = b.personalInfo?.age || 0;
-    
+
             if (input === "asc") {
                 return ageA - ageB;
             } else {
@@ -150,21 +152,13 @@ const Users = () => {
         });
         setUsers(sortedUsers);
     };
-    
+
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
 
-    useEffect(() => {
-        const userExist = getItem('users')
-        if (userExist) {
-            setUsers(JSON.parse(userExist))
-        }
-        else {
-            setUsers(usersWithCheckbox)
-        }
-    }, [])
+
 
     return (
         <DashboardLayout>

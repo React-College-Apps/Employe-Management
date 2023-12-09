@@ -4,7 +4,7 @@ export interface IUserInterface {
   email: string
   isActive: boolean
   position: string
-  isChecked:boolean
+  isChecked?:boolean
   password: string
   personalInfo: PersonalInfo
 }
