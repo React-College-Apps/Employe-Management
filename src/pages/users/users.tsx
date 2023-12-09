@@ -63,15 +63,14 @@ const Users = () => {
     };
 
     const sortByStatusHandler = (input: string) => {
-        console.log(input);
     
         setSortByStatus(input);
         const sortedUsers = [...users];
         sortedUsers.sort((a, b) => {
             if (input === "active") {
-                return (a.status === b.status) ? 0 : a.status ? -1 : 1;
+                return (a.isActive === b.isActive) ? 0 : a.isActive ? -1 : 1;
             } else {
-                return (a.status === b.status) ? 0 : a.status ? 1 : -1;
+                return (a.isActive === b.isActive) ? 0 : a.isActive ? 1 : -1;
             }
         });
         setUsers(sortedUsers);
@@ -81,7 +80,6 @@ const Users = () => {
 
 
     const setSortByGenderHandler = (input: string) => {
-        console.log(input)
         setSortByGender(input);
         const sortedUsers = [...users];
         sortedUsers.sort((a, b) => {

@@ -39,35 +39,35 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosi
     }]
     return (
         <div className='grid grid-cols-3 mb-3 w-1/2 gap-3'>
-            <SelectInput 
-            value={sortByName} 
-            onChange={(e) => setSortByName(e)} 
-            title={"Sort By Name"} 
-            options={sortByNameOptions} 
-            id={"sortByName"} 
+            <SelectInput
+                value={sortByName}
+                onChange={(e) => setSortByName(e)}
+                title={"Sort By Name"}
+                options={sortByNameOptions}
+                id={"sortByName"}
             />
-            <SelectInput 
-            value={sortByPosition} 
-            onChange={(e) => {
-                setSortByPosition(e)
-            }} 
-            title={"Sort By Title"} 
-            options={sortByTitleOptions} 
-            id={"sortByTitle"} 
+            <SelectInput
+                value={sortByPosition}
+                onChange={(e) => {
+                    setSortByPosition(e)
+                }}
+                title={"Sort By Title"}
+                options={sortByTitleOptions}
+                id={"sortByTitle"}
             />
-            <SelectInput 
-            value={sortByStatus} 
-            onChange={(e) => setSortByStatus(e)} 
-            title={"Sort By Status"} 
-            options={sortByStatusOptions} 
-            id={"sortByStatus"} 
+            <SelectInput
+                value={sortByStatus}
+                onChange={(e) => setSortByStatus(e)}
+                title={"Sort By Status"}
+                options={sortByStatusOptions}
+                id={"sortByStatus"}
             />
-            <SelectInput 
-            value={sortByGender} 
-            onChange={(e) => setSortByGender(e)} 
-            title={"Sort By Gender"} 
-            options={sortByGenderOptions} 
-            id={"sortByGender"} 
+            <SelectInput
+                value={sortByGender}
+                onChange={(e) => setSortByGender(e)}
+                title={"Sort By Gender"}
+                options={sortByGenderOptions}
+                id={"sortByGender"}
             />
 
 

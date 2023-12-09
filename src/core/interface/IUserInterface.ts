@@ -6,7 +6,6 @@ export interface IUserInterface {
   position: string;
   gender: boolean;
   isChecked: boolean;
-  status:boolean
 }
 
 export default IUserInterface;
