@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import IUserInterface from '../../core/interface/IUserInterface'
 
 import DashboardLayout from '../../components/layout/dashboardLayout'
-
-
-import UserJson from '../../constant/users.json'
 import SortingOptions from '../../components/users/sortingOption/sortingOption'
 import UserTable from '../../components/users/userList/userList'
 import Pagination from '../../components/pagination/pagination'
-import { Link } from 'react-router-dom'
-import { getItem, setItem } from '../../core/storage/storage'
 import Modal from '../../components/modal/modal'
+import Alert from '../../components/alert/alert'
+
+import UserJson from '../../constant/users.json'
+import { getItem, setItem } from '../../core/storage/storage'
+
 
 const Users = () => {
     const usersWithCheckbox = UserJson.map(user => ({
@@ -30,6 +32,8 @@ const Users = () => {
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
     const [deleteModel, setDeleteModel] = useState<boolean>(false)
     const [selectedUser, setSelectedUser] = useState<number>(0)
+    const [showAlert, setShowAlert] = useState(false);
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -114,7 +118,11 @@ const Users = () => {
         const newUser: IUserInterface[] = users.filter(user => user.id !== selectedUser);
         setItem("users", JSON.stringify(newUser))
         setUsers(newUser)
+        setShowAlert(true);
         setDeleteModel(false)
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 3000);
     }
 
     const selectUserToDelete = (id: number) => {
@@ -161,6 +169,9 @@ const Users = () => {
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
+                            {showAlert && (
+                                <Alert message="User deleted successfully" /> // You can customize the message as needed
+                            )}
 
                             <SortingOptions
                                 sortByStatus={sortByStatus}
