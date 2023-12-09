@@ -25,7 +25,6 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(10);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
-    const [searchQuery, setSearchQuery] = useState<string>("")
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -94,9 +93,18 @@ const Users = () => {
         setUsers(sortedUsers);
     };
 
-    const searchInTableHandler = () => {
-
-    }
+    const searchInTableHandler = (value: string) => {
+        if (!value) {
+            setUsers(usersWithCheckbox);
+        } else {
+            const filteredUsers = users.filter(user =>
+                user.name.toLowerCase().includes(value.toLowerCase()) ||
+                user.position.toLowerCase().includes(value.toLowerCase()) ||
+                user.email.toLowerCase().includes(value.toLowerCase())
+            );
+            setUsers(filteredUsers);
+        }
+    };
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -135,7 +143,7 @@ const Users = () => {
                                 setSortByStatus={sortByStatusHandler}
                                 setSortByGender={setSortByGenderHandler}
                                 sortByGender={sortByGender}
-                                onSearchChange={setSearchQuery} />
+                                onSearchChange={searchInTableHandler} />
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
