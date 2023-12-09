@@ -33,7 +33,7 @@ const Users = () => {
     const [deleteModel, setDeleteModel] = useState<boolean>(false)
     const [selectedUser, setSelectedUser] = useState<number>(0)
     const [showAlert, setShowAlert] = useState(false);
-
+    const [sortByAge, setSortByAge] = useState<any>(null)
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -130,10 +130,27 @@ const Users = () => {
         setDeleteModel(true)
     }
 
-    const resetDataHandler = ()=>{
+    const resetDataHandler = () => {
         setUsers(usersWithCheckbox)
         setItem("users", JSON.stringify(usersWithCheckbox))
     }
+
+    const setSortByAgeHandler = (input: string) => {
+        setSortByAge(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            const ageA = a.personalInfo?.age || 0;
+            const ageB = b.personalInfo?.age || 0;
+    
+            if (input === "asc") {
+                return ageA - ageB;
+            } else {
+                return ageB - ageA;
+            }
+        });
+        setUsers(sortedUsers);
+    };
+    
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -189,7 +206,9 @@ const Users = () => {
                                 setSortByStatus={sortByStatusHandler}
                                 setSortByGender={setSortByGenderHandler}
                                 sortByGender={sortByGender}
-                                onSearchChange={searchInTableHandler} />
+                                onSearchChange={searchInTableHandler}
+                                sortByAge={sortByAge}
+                                setSortByAge={setSortByAgeHandler} />
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
