@@ -3,7 +3,7 @@ import React from 'react'
 
 interface IDashboardCardProps{
     title:string,
-    value:string,
+    value:number,
     icon:any,
 }
 const DashboardCard:React.FC<IDashboardCardProps> = ({title,value,icon}) => {
