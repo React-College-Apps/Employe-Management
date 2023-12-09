@@ -9,6 +9,7 @@ import UserJson from '../../constant/users.json'
 import SortingOptions from '../../components/users/sortingOption/sortingOption'
 import UserTable from '../../components/users/userList/userList'
 import Pagination from '../../components/pagination/pagination'
+import { Link } from 'react-router-dom'
 
 const Users = () => {
     const usersWithCheckbox = UserJson.map(user => ({
@@ -124,12 +125,15 @@ const Users = () => {
                                 </p>
                             </div>
                             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                                <button
-                                    type="button"
-                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   "
+                                <Link
+                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " 
+                                    to={'/createuser'}
                                 >
+
                                     Add user
-                                </button>
+
+                                </Link>
+
                             </div>
                         </div>
                         <div className="mt-8 flow-root">

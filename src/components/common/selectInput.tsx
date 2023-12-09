@@ -1,11 +1,11 @@
 import React from 'react'
 
 interface ISelectInput {
-    value: string,
+    value?: string,
     onChange: (value: any) => any,
     title: string,
-    options: any,
-    id: string
+    options?: any,
+    id?: string
 }
 const SelectInput: React.FC<ISelectInput> = ({ value, onChange, title, options, id }) => {
     return (
