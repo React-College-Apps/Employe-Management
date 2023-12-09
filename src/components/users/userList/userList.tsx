@@ -69,13 +69,15 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         </>}
                                     </div>
                                 </td>
-                                <td className="whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-3">
+                                <td className="whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-3 space-x-3">
                                     <a
                                         href="#"
-                                        className="text-indigo-600 hover:text-indigo-900"
+                                        className="rounded bg-indigo-600 text-white px-2 py-1 text-md hover:text-white hover:bg-indigo-500"
                                     >
                                         Edit
                                     </a>
+                                    <button type="button" className="rounded bg-red-600 px-2 py-1 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Delete</button>
+
                                 </td>
                             </tr>
                         ))}
