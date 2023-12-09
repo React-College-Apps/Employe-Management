@@ -34,7 +34,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalPages, setCu
                         e.preventDefault();
                         handlePageClick(i);
                     }}
-                    className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${currentPage === i ? 'text-white bg-[#0099CC]' : 'text-gray-900 ring-1 ring-inset ring-gray-300'} hover:bg-gray-50 `}
+                    className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${currentPage === i ? 'text-white bg-[#0099CC]' : 'text-gray-900 ring-1 ring-inset ring-gray-300'}  `}
                 >
                     {i}
                 </a>
@@ -45,7 +45,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalPages, setCu
 
     return (
         <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-           
+
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
                     <p className="text-sm text-gray-700">
