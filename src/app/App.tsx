@@ -1,10 +1,9 @@
 import {
   BrowserRouter as Router,
   Routes,
-  Route, useNavigate
+  Route
 } from 'react-router-dom';
 
-import { getItem } from '../core/storage/storage';
 
 import Login from '../pages/login/login';
 import Dashboard from '../pages/dashboard/dashboard';

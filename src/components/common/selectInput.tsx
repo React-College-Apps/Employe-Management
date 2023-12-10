@@ -5,11 +5,12 @@ interface ISelectInput {
     onChange: (value: any) => any,
     title: string,
     options?: any,
-    id?: string
+    id?: string,
+    className?: string,
 }
-const SelectInput: React.FC<ISelectInput> = ({ value, onChange, title, options, id }) => {
+const SelectInput: React.FC<ISelectInput> = ({ value, onChange, title, options, id,className }) => {
     return (
-        <div>
+        <div className={className}>
             <label htmlFor={id} className="block text-sm font-medium leading-6 text-gray-900">{title}</label>
             <select
                 value={value}

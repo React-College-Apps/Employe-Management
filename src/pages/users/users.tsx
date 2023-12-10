@@ -14,10 +14,12 @@ import Alert from '../../components/alert/alert'
 import UserJson from '../../constant/users.json'
 import { getItem, setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.Context'
+import SelectInput from '../../components/common/selectInput'
+import Button from '../../components/common/button'
 
 
 const Users = () => {
-    const usersWithCheckbox = UserJson.map((user:IUserInterface) => ({
+    const usersWithCheckbox = UserJson.map((user: IUserInterface) => ({
         ...user,
         isChecked: false
     }));
@@ -41,7 +43,15 @@ const Users = () => {
 
     const totalPages = Math.ceil(users.length / itemsPerPage);
 
-
+    const actionOptions = [{
+        title: "Delete User", value: "del"
+    },
+    {
+        title: "Deactive User", value: "dea"
+    },
+    {
+        title: "Active User", value: "act"
+    }]
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
@@ -181,16 +191,16 @@ const Users = () => {
 
                                     Add user
                                 </Link>
-                                <button className="block rounded-md bg-yellow-500 hover:bg-yellow-400 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " onClick={resetDataHandler}>
+                                <Button className=" bg-yellow-500 hover:bg-yellow-400" onClick={resetDataHandler}>
                                     Reset Data
-                                </button>
+                                </Button>
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
+                            <h2>Filter</h2>
                             {showAlert && (
                                 <Alert message="User deleted successfully" /> // You can customize the message as needed
                             )}
-
                             <SortingOptions
                                 sortByStatus={sortByStatus}
                                 sortByName={sortByName}
@@ -203,6 +213,22 @@ const Users = () => {
                                 onSearchChange={searchInTableHandler}
                                 sortByAge={sortByAge}
                                 setSortByAge={setSortByAgeHandler} />
+                            <div >
+                                <h2 className='mb-3'>Action</h2>
+                                <div className='grid grid-cols-3 justify-center items-center'>
+                                    <div>
+                                        <SelectInput className="mb-3" onChange={function (value: any) {
+                                            throw new Error('Function not implemented.')
+                                        }} title={'User Actions'} options={actionOptions} />
+                                    </div>
+                                    <div>
+                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3"> Submit Action</Button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
                             <UserTable
                                 users={currentUsers}
                                 allChecked={allChecked}
