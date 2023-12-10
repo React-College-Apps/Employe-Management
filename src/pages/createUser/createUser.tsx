@@ -21,7 +21,7 @@ const CreateUser = () => {
     const [userCreated, setUserCreated] = useState<boolean>(false)
 
     const createUser = () => {
-        const user: IUserInterface = {
+        const newUser = {
             id: users.length + 1,
             username: userName,
             email,
@@ -35,14 +35,19 @@ const CreateUser = () => {
                 age: age,
                 gender: gender
             }
-        }
-        setUserCreated(true)
-        setUsers([...users, user])
-        setItem("users", JSON.stringify(users))
+        };
+    
+        const updatedUsers = [...users, newUser];
+    
+        setUserCreated(true);
+        setUsers(updatedUsers); // Update state with new users list
+        setItem("users", JSON.stringify(updatedUsers)); // Save new users list to storage
+    
         setTimeout(() => {
-            setUserCreated(false)
+            setUserCreated(false);
         }, 3000);
     }
+    
 
     const cancelProccess = () => {
         setUserName("");
