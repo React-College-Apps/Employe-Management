@@ -46,9 +46,11 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                                     />
                                 </td>
-                                <td className=" whitespace-nowrap py-4 p-3 text-sm font-medium text-gray-900">
-                                    {user.username}
-                                </td>
+                                <Link to={`/edituser/${user.id}`}>
+                                    <td className=" whitespace-nowrap py-4 p-3 text-sm font-medium text-gray-900">
+                                        {user.username}
+                                    </td>
+                                </Link>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {user.position}
                                 </td>
