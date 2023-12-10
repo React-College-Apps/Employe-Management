@@ -122,7 +122,7 @@ const Users = () => {
                 user.position.toLowerCase().includes(value.toLowerCase()) ||
                 user.email.toLowerCase().includes(value.toLowerCase())
             );
-            setUsers(filteredUsers);
+            setCurrentUsers(filteredUsers);
         }
     };
 
