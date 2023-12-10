@@ -25,30 +25,22 @@ const EditUser = () => {
 
     const changeUser = () => {
 
-        const updatedUser: IUserInterface = {
-            username: userName,
-            email: email,
-            position: position,
-            personalInfo: {
-                age: age,
-                first_name: firstName,
-                last_name: lastName,
-                gender: gender
-            },
 
-        };
 
-        // Update users state
-        const updatedUsers: IUserInterface = users.map((user: IUserInterface) => {
-            if (user.id === id) {
-                return updatedUser;
-            }
-            return user;
-        });
+        const oldUser: IUserInterface[] = users.filter((user: IUserInterface) => user.id === Number(id))
+        oldUser.forEach((user: IUserInterface) => {
+            user.username = userName;
+            user.email = email;
+            user.position = position;
+            user.personalInfo.age = age;
+            user.personalInfo.first_name = firstName;
+            user.personalInfo.last_name = lastName;
+            user.personalInfo.gender = gender;
+        })
 
-        setUsers([...users, updatedUsers]);
-        console.log(updatedUser)
-        setItem("users", JSON.stringify(updatedUsers));
+        setUsers([...users, oldUser[0]]);
+        console.log(oldUser)
+        setItem("users", JSON.stringify(oldUser));
 
     }
 
