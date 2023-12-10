@@ -12,7 +12,7 @@ import Modal from '../../components/modal/modal'
 import Alert from '../../components/alert/alert'
 
 import UserJson from '../../constant/users.json'
-import { getItem, setItem } from '../../core/storage/storage'
+import { setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.Context'
 import SelectInput from '../../components/common/selectInput'
 import Button from '../../components/common/button'
@@ -35,9 +35,11 @@ const Users = () => {
     const [itemsPerPage] = useState<number>(10);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
     const [deleteModel, setDeleteModel] = useState<boolean>(false)
-    const [selectedUser, setSelectedUser] = useState<number>(0)
+    const [selectedUser, setSelectedUser] = useState<number[]>([0])
     const [showAlert, setShowAlert] = useState(false);
     const [sortByAge, setSortByAge] = useState<any>(null)
+    const [userAction, setUserAction] = useState<string>("")
+
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
@@ -55,14 +57,27 @@ const Users = () => {
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
+        const userIds: any = updatedUsers.map((user: IUserInterface) => user.id)
+        setSelectedUser(userIds)
         setUsers(updatedUsers);
         setAllChecked(!allChecked);
     };
 
     const toggleCheckbox = (id: number) => {
-        const updatedUsers = users.map(user => user.id === id ? { ...user, isChecked: !user.isChecked } : user);
+        const updatedUsers: IUserInterface[] = users.map(user =>
+            user.id === id ? { ...user, isChecked: !user.isChecked } : user
+        );
+
+        const newSelectedUser = updatedUsers.find(user => user.id === id);
+        if (newSelectedUser && newSelectedUser.isChecked) {
+            setSelectedUser(prevSelected => [...prevSelected, id]);
+        } else {
+            setSelectedUser(prevSelected => prevSelected.filter(selectedId => selectedId !== id));
+        }
+
         setUsers(updatedUsers);
     };
+
 
     const sortByNameHandler = (input: string) => {
         setSortByName(input)
@@ -125,20 +140,21 @@ const Users = () => {
             setCurrentUsers(filteredUsers);
         }
     };
-
     const deleteUserHandler = () => {
-        const newUser: IUserInterface[] = users.filter(user => user.id !== selectedUser);
-        setItem("users", JSON.stringify(newUser))
-        setUsers(newUser)
+        const newUser: IUserInterface[] = users.filter(user => user.id !== undefined && !selectedUser.includes(user.id));
+        console.log(newUser)
+        setItem("users", JSON.stringify(newUser));
+        setUsers(newUser);
         setShowAlert(true);
-        setDeleteModel(false)
+        setDeleteModel(false);
         setTimeout(() => {
             setShowAlert(false);
         }, 3000);
-    }
+    };
+
 
     const selectUserToDelete = (id: number) => {
-        setSelectedUser(id)
+        setSelectedUser([id])
         setDeleteModel(true)
     }
 
@@ -164,6 +180,13 @@ const Users = () => {
     };
 
 
+    const actionHandler = () => {
+        switch (userAction) {
+            case "del":
+                deleteUserHandler()
+                break;
+        }
+    }
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
@@ -217,12 +240,10 @@ const Users = () => {
                                 <h2 className='mb-3'>Action</h2>
                                 <div className='grid grid-cols-3 justify-center items-center'>
                                     <div>
-                                        <SelectInput className="mb-3" onChange={function (value: any) {
-                                            throw new Error('Function not implemented.')
-                                        }} title={'User Actions'} options={actionOptions} />
+                                        <SelectInput className="mb-3" onChange={(value) => setUserAction(value)} title={'User Actions'} options={actionOptions} />
                                     </div>
                                     <div>
-                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3"> Submit Action</Button>
+                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3" onClick={() => actionHandler()}> Submit Action</Button>
                                     </div>
 
 
