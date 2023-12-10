@@ -10,6 +10,7 @@ import InputForm from '../../components/common/inputForm'
 import Alert from '../../components/alert/alert'
 import SelectInput from '../../components/common/selectInput'
 import IUserInterface from '../../core/interface/IUserInterface';
+import Button from '../../components/common/button';
 
 const EditUser = () => {
     const { users, setUsers } = useUsers();
@@ -142,18 +143,19 @@ const EditUser = () => {
                     </div>
 
                     <div className="mt-6 flex items-center justify-end gap-x-3">
-                        <button onClick={cancelProccess} type="button" className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+                        <Button
+                            onClick={cancelProccess}
+                            className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400 "
                         >
                             Cancel
-                        </button>
+                        </Button>
 
-                        <button
+                        <Button
                             onClick={changeUser}
-                            type="submit"
-                            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            className="rounded-md bg-[#0099CC] px-3 py-2 text-sm font-semibold text-white shadow-sm "
                         >
                             Change
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </main>

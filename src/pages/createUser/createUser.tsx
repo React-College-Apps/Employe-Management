@@ -8,6 +8,7 @@ import InputForm from '../../components/common/inputForm'
 import SelectInput from '../../components/common/selectInput'
 import DashboardLayout from '../../components/layout/dashboardLayout'
 import Alert from '../../components/alert/alert'
+import Button from '../../components/common/button'
 const CreateUser = () => {
     const { users, setUsers } = useUsers();
     const [userName, setUserName] = useState<string>("")
@@ -36,18 +37,18 @@ const CreateUser = () => {
                 gender: gender
             }
         };
-    
+
         const updatedUsers = [...users, newUser];
-    
+
         setUserCreated(true);
         setUsers(updatedUsers); // Update state with new users list
         setItem("users", JSON.stringify(updatedUsers)); // Save new users list to storage
-    
+
         setTimeout(() => {
             setUserCreated(false);
         }, 3000);
     }
-    
+
 
     const cancelProccess = () => {
         setUserName("");
@@ -129,18 +130,17 @@ const CreateUser = () => {
                     </div>
 
                     <div className="mt-6 flex items-center justify-end gap-x-3">
-                        <button onClick={cancelProccess} type="button" className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400"
+                        <Button onClick={cancelProccess}  className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400"
                         >
                             Cancel
-                        </button>
+                        </Button>
 
-                        <button
+                        <Button
                             onClick={createUser}
-                            type="submit"
-                            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            className="rounded-md bg-[#0099CC] px-3 py-2 text-sm font-semibold text-white shadow-sm    "
                         >
                             Save
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </main>
