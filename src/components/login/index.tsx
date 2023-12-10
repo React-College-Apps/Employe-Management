@@ -4,19 +4,20 @@ import logo from '../../assets/images/logo/logo.png'
 
 import LoginForm from './loginForm/LoginForm'
 
-import UserJson from '../../constant/users.json'
 import { useNavigate } from 'react-router-dom'
 import { setItem } from '../../core/storage/storage'
 import Alert from '../alert/alert'
+import { useUsers } from '../../context/User.Context'
 
 const LoginHolder = () => {
+    const { users } = useUsers()
     const [userName, setUserName] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [success, setSuccess] = useState<boolean | null>(null) // Set to actual null, not "null"
     const navigate = useNavigate()
 
     const login = () => {
-        const userExist = UserJson.filter(user =>
+        const userExist = users.filter(user =>
             (user.username === userName || user.email === userName) && user.password === password);
         console.log(userExist)
         if (userExist.length > 0) {
