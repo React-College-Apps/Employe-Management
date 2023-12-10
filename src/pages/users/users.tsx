@@ -189,7 +189,7 @@ const Users = () => {
         setUsers(updatedUsers);
         setItem("users", JSON.stringify(updatedUsers));
     };
-    
+
     const activeUsersHandler = () => {
         const updatedUsers = users.map(user => {
             if (selectedUser.includes(user.id!)) {
@@ -200,7 +200,7 @@ const Users = () => {
         setUsers(updatedUsers);
         setItem("users", JSON.stringify(updatedUsers));
     };
-    
+
     const actionHandler = () => {
         switch (userAction) {
             case "del":
@@ -236,13 +236,13 @@ const Users = () => {
                             </div>
                             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex space-x-3">
                                 <Link
-                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   "
+                                    className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-md font-semibold text-white shadow-sm   "
                                     to={'/createuser'}
                                 >
 
                                     Add user
                                 </Link>
-                                <Button className=" bg-yellow-500 hover:bg-yellow-400" onClick={resetDataHandler}>
+                                <Button className=" bg-yellow-500 hover:bg-yellow-400 px-3 py-2" onClick={resetDataHandler}>
                                     Reset Data
                                 </Button>
                             </div>
@@ -271,7 +271,7 @@ const Users = () => {
                                         <SelectInput className="mb-3" onChange={(value) => setUserAction(value)} title={'User Actions'} options={actionOptions} />
                                     </div>
                                     <div>
-                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3" onClick={() => actionHandler()}> Submit Action</Button>
+                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3 px-3 py-2" onClick={() => actionHandler()}> Submit Action</Button>
                                     </div>
 
 
