@@ -1,15 +1,16 @@
 import React from 'react'
 
 interface ISelectInput {
-    value: string,
+    value?: string,
     onChange: (value: any) => any,
     title: string,
-    options: any,
-    id: string
+    options?: any,
+    id?: string,
+    className?: string,
 }
-const SelectInput: React.FC<ISelectInput> = ({ value, onChange, title, options, id }) => {
+const SelectInput: React.FC<ISelectInput> = ({ value, onChange, title, options, id,className }) => {
     return (
-        <div>
+        <div className={className}>
             <label htmlFor={id} className="block text-sm font-medium leading-6 text-gray-900">{title}</label>
             <select
                 value={value}
