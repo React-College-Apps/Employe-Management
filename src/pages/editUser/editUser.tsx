@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.Context'
-import { useParams } from 'react-router-dom';
 
 import DashboardLayout from '../../components/layout/dashboardLayout'
 import InputForm from '../../components/common/inputForm'
@@ -20,30 +21,38 @@ const EditUser = () => {
     const [age, setAge] = useState<number>(0)
     const [gender, setGender] = useState<boolean>(false)
     const [password, setPassword] = useState<string>("")
-    const [userCreated, setUserCreated] = useState<boolean>(false)
+    const [userUpdated, setUserUpdated] = useState<boolean>(false)
     const { id } = useParams();
+    const navigate = useNavigate()
 
     const changeUser = () => {
-
-
-
-        const oldUser: IUserInterface[] = users.filter((user: IUserInterface) => user.id === Number(id))
-        oldUser.forEach((user: IUserInterface) => {
-            user.username = userName;
-            user.email = email;
-            user.position = position;
-            user.personalInfo.age = age;
-            user.personalInfo.first_name = firstName;
-            user.personalInfo.last_name = lastName;
-            user.personalInfo.gender = gender;
-        })
-
-        setUsers([...users, oldUser[0]]);
-        console.log(oldUser)
-        setItem("users", JSON.stringify(oldUser));
+        const updatedUsers = users.map((user) => {
+            if (user.id === Number(id)) {
+                return {
+                    ...user,
+                    username: userName,
+                    email: email,
+                    position: position,
+                    password,
+                    personalInfo: {
+                        ...user.personalInfo,
+                        age: age,
+                        first_name: firstName,
+                        last_name: lastName,
+                        gender: gender,
+                    },
+                };
+            }
+            return user;
+        });
+        setUserUpdated(true)
+        setUsers(updatedUsers);
+        setItem("users", JSON.stringify(updatedUsers));
+        setTimeout(() => {
+            navigate('/users')
+        }, 3000);
 
     }
-
 
     const cancelProccess = () => {
         setUserName("");
@@ -79,17 +88,14 @@ const EditUser = () => {
                             <p className="mt-1 text-sm leading-6 text-gray-600">
                                 This information will be displayed publicly so be careful what you share.
                             </p>
-                            {userCreated && <Alert message="User Information Changed Successfully" />}
+                            {userUpdated && <Alert message="User Information Changed Successfully" />}
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                {/* Username */}
                                 <div className="sm:col-span-2">
                                     <InputForm label='Username' type={'text'} value={userName} onChange={(e) => setUserName(e.target.value)} className={''} />
                                 </div>
-                                {/* Email */}
                                 <div className="sm:col-span-2">
                                     <InputForm label={'Email Address'} type={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
-                                {/* Position */}
                                 <div className="sm:col-span-2">
                                     <InputForm label='Position' type={'text'} value={position} onChange={(e) => setPosition(e.target.value)} />
                                 </div>
@@ -100,19 +106,15 @@ const EditUser = () => {
                             <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
 
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                {/* First Name */}
                                 <div className="sm:col-span-3">
                                     <InputForm label={'First Name'} type={'text'} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                                 </div>
-                                {/* Last Name */}
                                 <div className="sm:col-span-3">
                                     <InputForm label={'Last Name'} type={'text'} value={lastName} onChange={(e) => setLastName(e.target.value)} />
                                 </div>
-                                {/* Age */}
                                 <div className="sm:col-span-3">
                                     <InputForm label={'Age'} type={'number'} value={age} onChange={(e) => setAge(Number(e.target.value))} />
                                 </div>
-                                {/* Gender */}
                                 <div className="sm:col-span-3">
                                     <SelectInput
                                         value={gender ? "male" : "female"}
@@ -120,6 +122,17 @@ const EditUser = () => {
                                         options={[{ title: "Male", value: "male" }, { title: "Female", value: "female" }]}
                                         onChange={(e) => setGender(e === "male")}
                                     />
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div className="border-b border-gray-900/10 pb-12">
+                            <h2 className="text-base font-semibold leading-7 text-gray-900">Change Password</h2>
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-3">
+                                    <InputForm label={'New Password'} type={'password'} value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                             </div>
 
