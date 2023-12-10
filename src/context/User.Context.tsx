@@ -22,14 +22,19 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [users, setUsers] = useState<IUserInterface[]>(usersWithCheckbox);
     useEffect(() => {
-        const userExist = getItem('users')
+        const userExist = getItem('users');
         if (userExist) {
-            setUsers(JSON.parse(userExist))
+            const parsedUsers = JSON.parse(userExist).map((user: IUserInterface) => ({
+                ...user,
+                isChecked: false 
+            }));
+            setUsers(parsedUsers);
         }
         else {
-            setUsers(usersWithCheckbox)
+            setUsers(usersWithCheckbox);
         }
-    }, [])
+    }, []);
+
     return (
         <UserContext.Provider value={{ users, setUsers }}>
             {children}

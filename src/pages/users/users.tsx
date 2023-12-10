@@ -179,12 +179,40 @@ const Users = () => {
         setUsers(sortedUsers);
     };
 
-
+    const deactiveUsersHandler = () => {
+        const updatedUsers = users.map(user => {
+            if (selectedUser.includes(user.id!)) {
+                return { ...user, isActive: false };
+            }
+            return user;
+        });
+        setUsers(updatedUsers);
+        setItem("users", JSON.stringify(updatedUsers));
+    };
+    
+    const activeUsersHandler = () => {
+        const updatedUsers = users.map(user => {
+            if (selectedUser.includes(user.id!)) {
+                return { ...user, isActive: true };
+            }
+            return user;
+        });
+        setUsers(updatedUsers);
+        setItem("users", JSON.stringify(updatedUsers));
+    };
+    
     const actionHandler = () => {
         switch (userAction) {
             case "del":
                 deleteUserHandler()
                 break;
+            case "dea":
+                deactiveUsersHandler()
+                break
+            case "act":
+                activeUsersHandler()
+                break
+
         }
     }
     useEffect(() => {
